@@ -1,3 +1,4 @@
+git commit -m "JPWR-3 <message>"
 # weather
 
 ## Project setup
