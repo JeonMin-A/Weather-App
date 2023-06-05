@@ -4,15 +4,15 @@
       <!-- 
         검색창 영역
       -->
-      <div class="search-box flex justify-center text-3xl">
+      <div class="search-box flex justify-center flex-col text-3xl">
         <input
           type="text"
-          class="search-bar w-full h-12 rounded-tl-lg rounded-br-lg text-lg hover:rounded-none hover:rounded-tr-lg hover:rounded-bl-lg focus:rounded-none focus:rounded-tr-lg focus:rounded-bl-lg"
+          class="search-bar w-full h-12 rounded-lg text-lg focus:rounded-t-lg focus:rounded-b-none"
           placeholder="Search..."
           v-model="query"
           @keypress="fetchWeather"
         />
-        <div>
+        <div v-show="query" class="basis-full search-bar">
           <ul>
             <li v-for="city in filteredCities" :key="city">{{ city.city }}</li>
           </ul>
@@ -68,13 +68,19 @@ export default {
     };
   },
   computed: {
+    inKorea() {
+      return this.cities.filter((e) => {
+        return e.country == 'South Korea'
+      })
+    },
     filteredCities() {
       const filterKey = this.query && this.query.toLowerCase()
-      let data = this.cities
+      // let data = this.cities
+      let data = this.inKorea
+
       if (filterKey) {
         data = data.filter((row) => {
           return Object.keys(row).some((key) => {
-            console.log(key)
             // 중간에 있는 것도 포함
             // return String(row[key]).toLowerCase().indexOf(filterKey) > -1
             // 시작하는 것들로만 찾기
